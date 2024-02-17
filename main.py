@@ -65,42 +65,47 @@ class Cell:
             top_wall_p1 = Point(self._x1, self._y1)
             top_wall_p2 = Point(self._x2, self._y1)
             top_line = Line(top_wall_p1, top_wall_p2)
-            window.draw_line(top_line, "white")
+            self._win.draw_line(top_line, "white")
         
         if self.has_right_wall:
             right_wall_p1 = Point(self._x2, self._y1)
             right_wall_p2 = Point(self._x2, self._y2)
             right_line = Line(right_wall_p1, right_wall_p2)
-            window.draw_line(right_line, "white")
+            self._win.draw_line(right_line, "white")
         
         if self.has_left_wall:
             left_wall_p1 = Point(self._x1, self._y1)
             left_wall_p2 = Point(self._x1, self._y2)
             left_line = Line(left_wall_p1, left_wall_p2)
-            window.draw_line(left_line, "white")
+            self._win.draw_line(left_line, "white")
 
         if self.has_bottom_wall:
             bottom_wall_p1 = Point(self._x1, self._y2) 
             bottom_wall_p2 = Point(self._x2, self._y2)
             bottom_line = Line(bottom_wall_p1, bottom_wall_p2)
-            window.draw_line(bottom_line, "white")
+            self._win.draw_line(bottom_line, "white")
 
-
+    def draw_move(self, to_cell, undo=False):
+        from_center = Point(self._x2 - (self._x2 - self._x1) / 2, self._y2 - (self._y2 - self._y1) / 2)
+        to_center = Point(to_cell._x2 - (to_cell._x2 - to_cell._x1) / 2, to_cell._y2 - (to_cell._y2 - to_cell._y1) / 2)
+        from_line = Line(from_center, to_center)
+        self._win.draw_line(from_line, "green")
 
 if __name__ == "__main__":
     window = Window(800, 600)
-
-    # test some line draws
-    #p1 = Point(100, 200)
-    #p2 = Point(400, 200)
-
-    #l1 = Line(p1, p2)
     
-    #window.draw_line(l1, "white")
-    
-    cell_a = Cell(200, 400, 200, 400, window)
+    # refactor cell generation logic this is just for testing
+    cell_a = Cell(50, 100, 50, 100, window)
     cell_a.draw()
 
-    window.wait_for_close()
+    cell_b = Cell(100, 150, 50, 100, window)
+    cell_b.draw()
 
+    cell_c = Cell(150, 200, 50, 100, window)
+    cell_c.draw()
+
+    cell_a.draw_move(cell_b)
+    cell_b.draw_move(cell_c)
+
+    window.wait_for_close()
 
