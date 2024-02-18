@@ -31,6 +31,16 @@ class Tests(unittest.TestCase):
             False
         )
 
+    def test_visit_reset_post_draw(self):
+        m1 = Maze(0, 0, 10, 10, 10, 10, None)
+
+        for col in m1._cells:
+            for cell in col:
+                self.assertEqual(
+                    cell.visited,
+                    False
+                )
+
 
 if __name__ == "__main__":
     unittest.main()

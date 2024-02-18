@@ -3,6 +3,8 @@ from cell import Cell
 
 from time import sleep
 
+import random
+
 
 class Maze:
     def __init__(
@@ -13,7 +15,8 @@ class Maze:
         num_cols,
         cell_size_x,
         cell_size_y,
-        window
+        window,
+        seed=None
     ):
         self._x1 = x1
         self._y1 = y1
@@ -24,6 +27,10 @@ class Maze:
         self._win = window
         self._cells = []
         self.create_cells()
+        self.seed = seed
+
+        if self.seed is not None:
+            random.seed(seed)
 
     def create_cells(self):
         for col in range(self._num_cols):
@@ -56,6 +63,9 @@ class Maze:
             x_draw_possition += self._cell_size_x
 
         self.break_entrance_and_exit()
+        self.break_walls(0, 0)
+        self.reset_cells()
+        self.solve()
 
     def animate(self):
         if not self._win:
@@ -73,3 +83,119 @@ class Maze:
 
         maze_entrance.draw()
         maze_exit.draw()
+
+    def break_walls(self, col, row):
+        self._cells[col][row].visited = True
+
+        while True:
+            # format is [[col, row, direction]}, [col, row, direction]]
+            can_visit = []
+
+            # Check we can move left
+            if col > 1:
+                if not self._cells[col - 1][row].visited:
+                    # TODO: Move the left, right, up, down to an Enum
+                    can_visit.append([col - 1, row, "left"])
+
+            # Check we can move right
+            if col < self._num_cols - 1:
+                if not self._cells[col + 1][row].visited:
+                    can_visit.append([col + 1, row, "right"])
+
+            # Check we can move up
+            if row > 1:
+                if not self._cells[col][row - 1].visited:
+                    can_visit.append([col, row - 1, "up"])
+
+            # Check if we can move down
+            if row < self._num_rows - 1:
+                if not self._cells[col][row + 1].visited:
+                    can_visit.append([col, row + 1, "down"])
+
+            if len(can_visit) == 0:
+                self._cells[col][row].draw()
+                break
+
+            next_cell_move = random.randint(0, len(can_visit) - 1)
+            next_cell_values = can_visit[next_cell_move]
+            next_cell = self._cells[next_cell_values[0]][next_cell_values[1]]
+
+            match next_cell_values[2]:
+                # TODO: Base case from Enum
+                case "right":
+                    self._cells[col][row].has_right_wall = False
+                    next_cell.has_left_wall = False
+
+                case "left":
+                    self._cells[col][row].has_left_wall = False
+                    next_cell.has_right_wall = False
+
+                case "up":
+                    self._cells[col][row].has_top_wall = False
+                    next_cell.has_bottom_wall = False
+
+                case "down":
+                    self._cells[col][row].has_bottom_wall = False
+                    next_cell.has_top_wall = False
+
+            self._cells[col][row].draw()
+            next_cell.draw()
+            self.break_walls(next_cell_values[0], next_cell_values[1])
+
+    def reset_cells(self):
+        for col in self._cells:
+            for cell in col:
+                cell.visited = False
+
+    def solve(self):
+        solved = self.solve_r(0, 0)
+        return solved
+
+    def solve_r(self, col, row):
+        self.animate()
+
+        current_cell = self._cells[col][row]
+        current_cell.visited = True
+
+        # check if we are at the end of the maze if we are return
+        if current_cell == self._cells[self._num_cols - 1][self._num_rows - 1]:
+            return True
+
+        # Draw our move to each direction
+        if col > 1 and not current_cell.has_left_wall:
+            if not self._cells[col - 1][row].visited:
+                current_cell.draw_move(self._cells[col - 1][row])
+                solved = self.solve_r(col - 1, row)
+                if solved:
+                    return True
+                else:
+                    current_cell.draw_move(self._cells[col - 1][row], undo=True)
+
+        if col < self._num_cols - 1 and not current_cell.has_right_wall:
+            if not self._cells[col + 1][row].visited:
+                current_cell.draw_move(self._cells[col + 1][row])
+                solved = self.solve_r(col + 1, row)
+                if solved:
+                    return True
+                else:
+                    current_cell.draw_move(self._cells[col + 1][row], undo=True)
+
+        if row > 1 and not current_cell.has_top_wall:
+            if not self._cells[col][row - 1].visited:
+                current_cell.draw_move(self._cells[col][row - 1])
+                solved = self.solve_r(col, row - 1)
+                if solved:
+                    return True
+                else:
+                    current_cell.draw_move(self._cells[col][row - 1], undo=True)
+
+        if row < self._num_rows - 1 and not current_cell.has_bottom_wall:
+            if not self._cells[col][row + 1].visited:
+                current_cell.draw_move(self._cells[col][row + 1])
+                solved = self.solve_r(col, row + 1)
+                if solved:
+                    return True
+                else:
+                    current_cell.draw_move(self._cells[col][row + 1], undo=True)
+
+        return False

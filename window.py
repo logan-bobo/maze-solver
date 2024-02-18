@@ -5,7 +5,7 @@ class Window:
     def __init__(self, width: int, height: int):
         self.root = Tk()
         self.root.title: str = "Maze Solver"
-        self.canvas = Canvas(height=height, width=width)
+        self.canvas = Canvas(height=height, width=width, bg="black")
         self.canvas.pack()
         self.running: bool = False
         self.root.protocol("WM_DELETE_WINDOW", self.close)
