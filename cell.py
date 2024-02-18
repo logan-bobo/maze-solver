@@ -24,29 +24,41 @@ class Cell:
         if not self._win:
             return
 
+        top_wall_p1 = Point(self._x1, self._y1)
+        top_wall_p2 = Point(self._x2, self._y1)
+        top_line = Line(top_wall_p1, top_wall_p2)
+
         if self.has_top_wall:
-            top_wall_p1 = Point(self._x1, self._y1)
-            top_wall_p2 = Point(self._x2, self._y1)
-            top_line = Line(top_wall_p1, top_wall_p2)
             self._win.draw_line(top_line, "white")
+        else:
+            self._win.draw_line(top_line, "grey")
+
+        right_wall_p1 = Point(self._x2, self._y1)
+        right_wall_p2 = Point(self._x2, self._y2)
+        right_line = Line(right_wall_p1, right_wall_p2)
 
         if self.has_right_wall:
-            right_wall_p1 = Point(self._x2, self._y1)
-            right_wall_p2 = Point(self._x2, self._y2)
-            right_line = Line(right_wall_p1, right_wall_p2)
             self._win.draw_line(right_line, "white")
+        else:
+            self._win.draw_line(right_line, "grey")
+
+        left_wall_p1 = Point(self._x1, self._y1)
+        left_wall_p2 = Point(self._x1, self._y2)
+        left_line = Line(left_wall_p1, left_wall_p2)
 
         if self.has_left_wall:
-            left_wall_p1 = Point(self._x1, self._y1)
-            left_wall_p2 = Point(self._x1, self._y2)
-            left_line = Line(left_wall_p1, left_wall_p2)
             self._win.draw_line(left_line, "white")
+        else:
+            self._win.draw_line(left_line, "grey")
+
+        bottom_wall_p1 = Point(self._x1, self._y2)
+        bottom_wall_p2 = Point(self._x2, self._y2)
+        bottom_line = Line(bottom_wall_p1, bottom_wall_p2)
 
         if self.has_bottom_wall:
-            bottom_wall_p1 = Point(self._x1, self._y2)
-            bottom_wall_p2 = Point(self._x2, self._y2)
-            bottom_line = Line(bottom_wall_p1, bottom_wall_p2)
             self._win.draw_line(bottom_line, "white")
+        else:
+            self._win.draw_line(bottom_line, "grey")
 
     def draw_move(self, to_cell, undo=False):
         if not self._win:

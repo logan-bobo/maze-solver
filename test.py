@@ -18,6 +18,19 @@ class Tests(unittest.TestCase):
             num_rows,
         )
 
+    def test_maze_entrance_and_exit(self):
+        m1 = Maze(0, 0, 10, 10, 10, 10, None)
+
+        self.assertEqual(
+            m1._cells[0][0].has_left_wall,
+            False
+        )
+
+        self.assertEqual(
+            m1._cells[9][9].has_right_wall,
+            False
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

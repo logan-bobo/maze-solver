@@ -55,9 +55,21 @@ class Maze:
             y_draw_possition = self._y1
             x_draw_possition += self._cell_size_x
 
+        self.break_entrance_and_exit()
+
     def animate(self):
         if not self._win:
             return
 
         self._win.redraw()
-        sleep(0.05)
+        sleep(0.005)
+
+    def break_entrance_and_exit(self):
+        maze_entrance = self._cells[0][0]
+        maze_exit = self._cells[self._num_cols - 1][self._num_rows - 1]
+
+        maze_entrance.has_left_wall = False
+        maze_exit.has_right_wall = False
+
+        maze_entrance.draw()
+        maze_exit.draw()
