@@ -21,6 +21,9 @@ class Cell:
         self._win = window
 
     def draw(self):
+        if not self._win:
+            return
+
         if self.has_top_wall:
             top_wall_p1 = Point(self._x1, self._y1)
             top_wall_p2 = Point(self._x2, self._y1)
@@ -46,6 +49,9 @@ class Cell:
             self._win.draw_line(bottom_line, "white")
 
     def draw_move(self, to_cell, undo=False):
+        if not self._win:
+            return
+
         from_center = Point(
             self._x2 - (self._x2 - self._x1) / 2,
             self._y2 - (self._y2 - self._y1) / 2

@@ -56,5 +56,8 @@ class Maze:
             x_draw_possition += self._cell_size_x
 
     def animate(self):
+        if not self._win:
+            return
+
         self._win.redraw()
         sleep(0.05)
