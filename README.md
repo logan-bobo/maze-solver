@@ -2,7 +2,7 @@
 A simple visual maze solver in Python based on depth first search
 
 # Demo 
-![Screen Recording 2024-02-18 at 19 31 42](https://github.com/logan-bobo/maze-solver/assets/51960546/2bd78250-9308-4a85-a4f2-7621e363e1a8)
+![Screen Recording 2024-02-19 at 16 35 47](https://github.com/logan-bobo/maze-solver/assets/51960546/b0f43e93-d39a-42b4-b863-e8eacfdc1851)
 
 
 
