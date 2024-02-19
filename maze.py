@@ -92,7 +92,7 @@ class Maze:
             can_visit = []
 
             # Check we can move left
-            if col > 1:
+            if col >= 1:
                 if not self._cells[col - 1][row].visited:
                     # TODO: Move the left, right, up, down to an Enum
                     can_visit.append([col - 1, row, "left"])
@@ -103,7 +103,7 @@ class Maze:
                     can_visit.append([col + 1, row, "right"])
 
             # Check we can move up
-            if row > 1:
+            if row >= 1:
                 if not self._cells[col][row - 1].visited:
                     can_visit.append([col, row - 1, "up"])
 
@@ -162,14 +162,17 @@ class Maze:
             return True
 
         # Draw our move to each direction
-        if col > 1 and not current_cell.has_left_wall:
+        if col >= 1 and not current_cell.has_left_wall:
             if not self._cells[col - 1][row].visited:
                 current_cell.draw_move(self._cells[col - 1][row])
                 solved = self.solve_r(col - 1, row)
                 if solved:
                     return True
                 else:
-                    current_cell.draw_move(self._cells[col - 1][row], undo=True)
+                    current_cell.draw_move(
+                        self._cells[col - 1][row],
+                        undo=True
+                    )
 
         if col < self._num_cols - 1 and not current_cell.has_right_wall:
             if not self._cells[col + 1][row].visited:
@@ -178,16 +181,22 @@ class Maze:
                 if solved:
                     return True
                 else:
-                    current_cell.draw_move(self._cells[col + 1][row], undo=True)
+                    current_cell.draw_move(
+                        self._cells[col + 1][row],
+                        undo=True
+                    )
 
-        if row > 1 and not current_cell.has_top_wall:
+        if row >= 1 and not current_cell.has_top_wall:
             if not self._cells[col][row - 1].visited:
                 current_cell.draw_move(self._cells[col][row - 1])
                 solved = self.solve_r(col, row - 1)
                 if solved:
                     return True
                 else:
-                    current_cell.draw_move(self._cells[col][row - 1], undo=True)
+                    current_cell.draw_move(
+                        self._cells[col][row - 1],
+                        undo=True
+                    )
 
         if row < self._num_rows - 1 and not current_cell.has_bottom_wall:
             if not self._cells[col][row + 1].visited:
@@ -196,6 +205,9 @@ class Maze:
                 if solved:
                     return True
                 else:
-                    current_cell.draw_move(self._cells[col][row + 1], undo=True)
+                    current_cell.draw_move(
+                        self._cells[col][row + 1],
+                        undo=True
+                    )
 
         return False
