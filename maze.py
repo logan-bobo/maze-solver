@@ -99,23 +99,18 @@ class Maze:
             # format [[col, row, direction]], [col, row, direction]]
             can_visit = []
 
-            # Check we can move left
             if col >= 1:
                 if not self._cells[col - 1][row].visited:
-                    # TODO: Move the left, right, up, down to an Enum
                     can_visit.append([col - 1, row, Direction.LEFT])
 
-            # Check we can move right
             if col < self._num_cols - 1:
                 if not self._cells[col + 1][row].visited:
                     can_visit.append([col + 1, row, Direction.RIGHT])
 
-            # Check we can move up
             if row >= 1:
                 if not self._cells[col][row - 1].visited:
                     can_visit.append([col, row - 1, Direction.UP])
 
-            # Check if we can move down
             if row < self._num_rows - 1:
                 if not self._cells[col][row + 1].visited:
                     can_visit.append([col, row + 1, Direction.DOWN])
@@ -165,7 +160,7 @@ class Maze:
         current_cell = self._cells[col][row]
         current_cell.visited = True
 
-        # check if we are at the end of the maze if we are return
+        # Check if we are at the end of the maze if we are return
         if current_cell == self._cells[self._num_cols - 1][self._num_rows - 1]:
             return True
 
