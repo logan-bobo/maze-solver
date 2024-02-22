@@ -2,8 +2,16 @@
 from cell import Cell
 
 from time import sleep
+from enum import Enum
 
 import random
+
+
+class Direction(Enum):
+    LEFT = 1
+    RIGHT = 2
+    UP = 3
+    DOWN = 4
 
 
 class Maze:
@@ -88,29 +96,29 @@ class Maze:
         self._cells[col][row].visited = True
 
         while True:
-            # format is [[col, row, direction]}, [col, row, direction]]
+            # format [[col, row, direction]], [col, row, direction]]
             can_visit = []
 
             # Check we can move left
             if col >= 1:
                 if not self._cells[col - 1][row].visited:
                     # TODO: Move the left, right, up, down to an Enum
-                    can_visit.append([col - 1, row, "left"])
+                    can_visit.append([col - 1, row, Direction.LEFT])
 
             # Check we can move right
             if col < self._num_cols - 1:
                 if not self._cells[col + 1][row].visited:
-                    can_visit.append([col + 1, row, "right"])
+                    can_visit.append([col + 1, row, Direction.RIGHT])
 
             # Check we can move up
             if row >= 1:
                 if not self._cells[col][row - 1].visited:
-                    can_visit.append([col, row - 1, "up"])
+                    can_visit.append([col, row - 1, Direction.UP])
 
             # Check if we can move down
             if row < self._num_rows - 1:
                 if not self._cells[col][row + 1].visited:
-                    can_visit.append([col, row + 1, "down"])
+                    can_visit.append([col, row + 1, Direction.DOWN])
 
             if len(can_visit) == 0:
                 self._cells[col][row].draw()
@@ -122,19 +130,19 @@ class Maze:
 
             match next_cell_values[2]:
                 # TODO: Base case from Enum
-                case "right":
+                case Direction.RIGHT:
                     self._cells[col][row].has_right_wall = False
                     next_cell.has_left_wall = False
 
-                case "left":
+                case Direction.LEFT:
                     self._cells[col][row].has_left_wall = False
                     next_cell.has_right_wall = False
 
-                case "up":
+                case Direction.UP:
                     self._cells[col][row].has_top_wall = False
                     next_cell.has_bottom_wall = False
 
-                case "down":
+                case Direction.DOWN:
                     self._cells[col][row].has_bottom_wall = False
                     next_cell.has_top_wall = False
 
