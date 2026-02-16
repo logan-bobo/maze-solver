@@ -1,4 +1,4 @@
-from tkinter import Tk, BOTH, Canvas
+from tkinter import Tk, Canvas
 
 
 class Window:
@@ -47,8 +47,7 @@ class Line:
             self.point_b.x,
             self.point_b.y,
             fill=fill_color,
-            width=2
+            width=2,
         )
 
         canvas.pack()
-

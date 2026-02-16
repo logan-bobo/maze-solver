@@ -1,4 +1,3 @@
-
 from cell import Cell
 
 from time import sleep
@@ -16,15 +15,7 @@ class Direction(Enum):
 
 class Maze:
     def __init__(
-        self,
-        x1,
-        y1,
-        num_rows,
-        num_cols,
-        cell_size_x,
-        cell_size_y,
-        window,
-        seed=None
+        self, x1, y1, num_rows, num_cols, cell_size_x, cell_size_y, window, seed=None
     ):
         self._x1 = x1
         self._y1 = y1
@@ -172,10 +163,7 @@ class Maze:
                 if solved:
                     return True
                 else:
-                    current_cell.draw_move(
-                        self._cells[col - 1][row],
-                        undo=True
-                    )
+                    current_cell.draw_move(self._cells[col - 1][row], undo=True)
 
         if col < self._num_cols - 1 and not current_cell.has_right_wall:
             if not self._cells[col + 1][row].visited:
@@ -184,10 +172,7 @@ class Maze:
                 if solved:
                     return True
                 else:
-                    current_cell.draw_move(
-                        self._cells[col + 1][row],
-                        undo=True
-                    )
+                    current_cell.draw_move(self._cells[col + 1][row], undo=True)
 
         if row >= 1 and not current_cell.has_top_wall:
             if not self._cells[col][row - 1].visited:
@@ -196,10 +181,7 @@ class Maze:
                 if solved:
                     return True
                 else:
-                    current_cell.draw_move(
-                        self._cells[col][row - 1],
-                        undo=True
-                    )
+                    current_cell.draw_move(self._cells[col][row - 1], undo=True)
 
         if row < self._num_rows - 1 and not current_cell.has_bottom_wall:
             if not self._cells[col][row + 1].visited:
@@ -208,9 +190,6 @@ class Maze:
                 if solved:
                     return True
                 else:
-                    current_cell.draw_move(
-                        self._cells[col][row + 1],
-                        undo=True
-                    )
+                    current_cell.draw_move(self._cells[col][row + 1], undo=True)
 
         return False

@@ -2,14 +2,7 @@ from window import Point, Line
 
 
 class Cell:
-    def __init__(
-        self,
-        x1,
-        x2,
-        y1,
-        y2,
-        window
-    ):
+    def __init__(self, x1, x2, y1, y2, window):
         self.has_left_wall = True
         self.has_right_wall = True
         self.has_top_wall = True
@@ -72,13 +65,12 @@ class Cell:
             return
 
         from_center = Point(
-            self._x2 - (self._x2 - self._x1) / 2,
-            self._y2 - (self._y2 - self._y1) / 2
+            self._x2 - (self._x2 - self._x1) / 2, self._y2 - (self._y2 - self._y1) / 2
         )
 
         to_center = Point(
             to_cell._x2 - (to_cell._x2 - to_cell._x1) / 2,
-            to_cell._y2 - (to_cell._y2 - to_cell._y1) / 2
+            to_cell._y2 - (to_cell._y2 - to_cell._y1) / 2,
         )
 
         from_line = Line(from_center, to_center)
